@@ -53,6 +53,25 @@ public class Creature
         if (_level < 10)
             _level++;
     }
+    
+    public void Go(Direction direction)
+    {
+        Console.WriteLine($"{Name} goes {direction.ToString().ToLower()}.");
+    }
+    
+    public void Go(Direction[] directions)
+    {
+        foreach (var direction in directions)
+        {
+            Go(direction);
+        }
+    }
+
+    public void Go(string directions)
+    {
+        var parsedDirections = DirectionParser.Parse(directions);
+        Go(parsedDirections);
+    }
 }
 
 
