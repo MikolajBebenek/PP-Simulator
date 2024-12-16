@@ -8,28 +8,13 @@ public abstract class Creature
     public string Name
     {
         get => _name;
-        set
-        {
-            var valueToSet = value.Trim();
-
-            if (valueToSet.Length < 3)
-                valueToSet = valueToSet.PadRight(3, '#');
-            else if (valueToSet.Length > 25)
-                valueToSet = valueToSet.Substring(0, 25).TrimEnd();
-            if (valueToSet.Length < 3)
-                valueToSet = valueToSet.PadRight(3, '#');
-
-            if (char.IsLower(valueToSet[0]))
-                valueToSet = char.ToUpper(valueToSet[0]) + valueToSet.Substring(1);
-
-            _name = valueToSet;
-        }
+        init => _name = Validator.Shortener(value, 3, 25, '#');
     }
 
     public int Level
     {
         get => _level;
-        set => _level = Math.Clamp(value, 1, 10); 
+        init => _level = Validator.Limiter(value, 1, 10);
     }
 
     protected Creature(string name, int level = 1)
@@ -38,6 +23,14 @@ public abstract class Creature
         Level = level;
     }
 
+    public abstract string Info { get; }
+
+    public override string ToString()
+    {
+        return $"{this.GetType().Name.ToUpper()}: {Info}";
+    }
+
     public abstract void SayHi();
+
     public abstract int Power { get; }
 }
