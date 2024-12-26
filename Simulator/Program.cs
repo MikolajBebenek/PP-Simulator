@@ -1,4 +1,5 @@
 ﻿namespace Simulator;
+using Simulator.Maps;
 
 class Program
 {
@@ -9,7 +10,7 @@ class Program
             Point p = new(10, 25);
             Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
             Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
-            lab5a();
+            Lab5b();
         }
         Console.WriteLine("\nPress any key to exit...");
         Console.ReadKey();
@@ -65,7 +66,7 @@ class Program
             ORC: Morgash [6][4]
         */
     }
-    static void lab5a()
+    static void Lab5a()
     {
         Console.WriteLine("Rectangle Tests\n");
 
@@ -121,5 +122,42 @@ class Program
         Console.WriteLine($"Rectangle: {rect5}");
         Console.WriteLine($"Contains {pointInside}: {rect5.Contains(pointInside)}");
         Console.WriteLine($"Contains {pointOutside}: {rect5.Contains(pointOutside)}");
+    }
+    static void Lab5b()
+    {
+        Console.WriteLine("Testing SmallSquareMap\n");
+
+        try
+        {
+            // Tworzenie mapy o rozmiarze 10
+            var map = new SmallSquareMap(10);
+            Console.WriteLine($"Created map with size: {map.Size}");
+
+            // Testowanie punktów
+            Point p1 = new(5, 5);
+            Point p2 = new(15, 15);
+
+            Console.WriteLine($"Point {p1} exists: {map.Exist(p1)}"); // True
+            Console.WriteLine($"Point {p2} exists: {map.Exist(p2)}"); // False
+
+            // Testowanie ruchu
+            Console.WriteLine($"Next from {p1} to the right: {map.Next(p1, Direction.Right)}"); // (6, 5)
+            Console.WriteLine($"Next from {p1} upwards: {map.Next(p1, Direction.Up)}"); // (5, 4)
+            Console.WriteLine($"Next from {p1} diagonally right: {map.NextDiagonal(p1, Direction.Right)}"); // (6, 4)
+
+            // Próba stworzenia mapy z nieprawidłowym rozmiarem
+            try
+            {
+                var invalidMap = new SmallSquareMap(3);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+        }
     }
 }
