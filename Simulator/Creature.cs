@@ -23,6 +23,17 @@ public abstract class Creature
         Level = level;
     }
 
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+
+    public string[] Go(Direction[] directions) =>
+    directions.Select(d => Go(d)).ToArray();
+
+    public string[] Go(string directions)
+    {
+        var parsedDirections = DirectionParser.Parse(directions);
+        return Go(parsedDirections);
+    }
+
     public abstract string Info { get; }
 
     public override string ToString()
@@ -30,7 +41,7 @@ public abstract class Creature
         return $"{this.GetType().Name.ToUpper()}: {Info}";
     }
 
-    public abstract void SayHi();
+    public abstract string Greeting();
 
     public abstract int Power { get; }
 }
