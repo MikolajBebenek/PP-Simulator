@@ -7,11 +7,12 @@ namespace TestSimulator;
 public class SmallTorusMapTests
 {
     [Fact]
-    public void Constructor_ValidSize_ShouldSetSize()
+    public void Constructor_ValidSize_ShouldSetDimensions()
     {
         int size = 10;
         var map = new SmallTorusMap(size);
-        Assert.Equal(size, map.Size);
+        Assert.Equal(size, map.SizeX);
+        Assert.Equal(size, map.SizeY);
     }
 
     [Theory]

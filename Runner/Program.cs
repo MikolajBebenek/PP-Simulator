@@ -10,7 +10,9 @@ class Program
         Console.WriteLine(elf.Greeting());
         Console.WriteLine(orc.Greeting());
 
-        Console.WriteLine(string.Join(", ", elf.Go("LRU")));
+        var directions = DirectionParser.Parse("LRU").ToArray();
+        Console.WriteLine(string.Join(", ", elf.Go(directions)));
+
         orc.Hunt();
         for (int i = 0; i < 5; i++)
         {
@@ -20,6 +22,5 @@ class Program
 
         Console.WriteLine("\nPress any key to exit...");
         Console.ReadKey();
-
     }
 }

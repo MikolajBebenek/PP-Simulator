@@ -4,6 +4,19 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    public int SizeX { get; }
+    public int SizeY { get; }
+
+    protected Map(int sizeX, int sizeY)
+    {
+        if (sizeX < 5 || sizeY < 5)
+        {
+            throw new ArgumentOutOfRangeException("Map dimensions must be at least 5x5.");
+        }
+
+        SizeX = sizeX;
+        SizeY = sizeY;
+    }
     /// <summary>
     /// Check if give point belongs to the map.
     /// </summary>

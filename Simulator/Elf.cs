@@ -22,7 +22,6 @@ public class Elf : Creature
     public void Sing()
     {
         _singCount++;
-        // Console.WriteLine($"{Name} is singing.");
 
         if (_singCount % 3 == 0)
         {
@@ -34,4 +33,9 @@ public class Elf : Creature
     $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 
     public override int Power => Level * 8 + Agility * 2;
+
+    public string[] Go(Direction[] directions)
+    {
+        return base.Go(directions);
+    }
 }
