@@ -2,7 +2,7 @@
 
 namespace Simulator;
 
-public abstract class Creature
+public abstract class Creature : IMappable
 {
     private string _name = "Unknown";
     private int _level = 1;
@@ -28,7 +28,7 @@ public abstract class Creature
         CurrentPosition = initialPosition;
     }
 
-    public void Go(Direction direction)
+    public void Move(Direction direction)
     {
         if (CurrentMap == null)
             return;
@@ -43,22 +43,12 @@ public abstract class Creature
 
     public string[] Go(Direction[] directions)
     {
-        if (CurrentMap == null)
-            return Array.Empty<string>();
-
         var results = new List<string>();
-
         foreach (var direction in directions)
         {
-            var newPosition = CurrentMap.Next(CurrentPosition, direction);
-            if (CurrentMap is SmallMap smallMap)
-            {
-                smallMap.Move(this, CurrentPosition, newPosition);
-            }
-            CurrentPosition = newPosition;
-            results.Add(direction.ToString().ToLower());
+            Move(direction);
+            results.Add($"{Name} moves {direction}");
         }
-
         return results.ToArray();
     }
 

@@ -23,7 +23,7 @@ public class CreatureTests
     }
 
     [Fact]
-    public void Go_ShouldMoveCreatureToNewPosition()
+    public void Move_ShouldMoveCreatureToNewPosition()
     {
         // Arrange
         var map = new TestSmallMap(10, 10);
@@ -32,20 +32,20 @@ public class CreatureTests
         creature.AssignToMap(map, start);
 
         // Act
-        creature.Go(Direction.Up);
+        creature.Move(Direction.Up);
 
         // Assert
         Assert.Equal(new Point(5, 4), creature.CurrentPosition);
     }
 
     [Fact]
-    public void Go_ShouldNotMoveCreatureIfNoMapAssigned()
+    public void Move_ShouldNotMoveCreatureIfNoMapAssigned()
     {
         // Arrange
         var creature = new TestCreature("Test", 1);
 
         // Act
-        creature.Go(Direction.Up);
+        creature.Move(Direction.Up);
 
         // Assert
         Assert.Null(creature.CurrentMap);

@@ -1,51 +1,38 @@
-﻿using Simulator.Maps;
-using Simulator;
+﻿using Simulator;
+using Simulator.Maps;
 
 public class Simulation
 {
     private int _currentMoveIndex = 0;
+
     public Map Map { get; }
-    public List<Creature> Creatures { get; }
+    public List<IMappable> Items { get; }
     public List<Point> Positions { get; }
     public string Moves { get; }
     public bool Finished { get; private set; } = false;
 
-    public Creature CurrentCreature
-    {
-        get
-        {
-            if (Creatures.Count == 0 || Finished)
-                throw new InvalidOperationException("No creatures or simulation is finished.");
-            return Creatures[_currentMoveIndex % Creatures.Count];
-        }
-    }
+    public IMappable CurrentItem => Items[_currentMoveIndex % Items.Count];
+    public string CurrentMoveName => Moves[_currentMoveIndex % Moves.Length].ToString().ToLower();
 
-    public string CurrentMoveName
+    public Simulation(Map map, List<IMappable> items, List<Point> positions, string moves)
     {
-        get
-        {
-            if (Moves.Length == 0 || Finished)
-                throw new InvalidOperationException("No moves or simulation is finished.");
-            return Moves[_currentMoveIndex % Moves.Length].ToString().ToLower();
-        }
-    }
+        if (items == null || items.Count == 0)
+            throw new ArgumentException("Item list cannot be null or empty.");
 
-    public Simulation(Map map, List<Creature> creatures, List<Point> positions, string moves)
-    {
-        if (creatures.Count == 0)
-            throw new ArgumentException("Creature list cannot be empty.");
+        if (positions == null || positions.Count != items.Count)
+            throw new ArgumentException("The number of positions must match the number of items.");
 
-        if (creatures.Count != positions.Count)
-            throw new ArgumentException("The number of creatures must match the number of positions.");
+        if (string.IsNullOrWhiteSpace(moves))
+            throw new ArgumentException("Moves sequence cannot be null or empty.");
 
         Map = map;
-        Creatures = creatures;
+        Items = items;
         Positions = positions;
         Moves = moves;
 
-        for (int i = 0; i < creatures.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            creatures[i].AssignToMap(map, positions[i]);
+            items[i].AssignToMap(map, positions[i]);
         }
     }
 
@@ -55,12 +42,10 @@ public class Simulation
             throw new InvalidOperationException("Simulation is finished.");
 
         var directions = DirectionParser.Parse(CurrentMoveName);
-        if (directions.Count == 0) 
+        if (directions.Count == 0)
             throw new InvalidOperationException("Invalid move in the sequence.");
 
-        var direction = directions[0];
-
-        CurrentCreature.Go(direction);
+        CurrentItem.Move(directions[0]);
         _currentMoveIndex++;
 
         if (_currentMoveIndex >= Moves.Length)

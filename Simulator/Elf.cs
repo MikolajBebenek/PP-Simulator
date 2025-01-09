@@ -30,12 +30,7 @@ public class Elf : Creature
     }
 
     public override string Greeting() =>
-    $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
+        $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 
     public override int Power => Level * 8 + Agility * 2;
-
-    public string[] Go(Direction[] directions)
-    {
-        return base.Go(directions);
-    }
 }

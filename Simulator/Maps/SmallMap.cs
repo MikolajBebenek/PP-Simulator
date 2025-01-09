@@ -2,48 +2,47 @@
 
 public abstract class SmallMap : Map
 {
-    private readonly Dictionary<Point, List<Creature>> _creaturePositions = new();
+    private readonly Dictionary<Point, List<IMappable>> _mappablePositions = new();
 
     protected SmallMap(int sizeX, int sizeY) : base(sizeX, sizeY) { }
 
-    public void Add(Creature creature, Point point)
+    public void Add(IMappable mappable, Point point)
     {
         if (!Exist(point)) throw new ArgumentOutOfRangeException();
 
-        if (!_creaturePositions.ContainsKey(point))
+        if (!_mappablePositions.ContainsKey(point))
         {
-            _creaturePositions[point] = new List<Creature>();
+            _mappablePositions[point] = new List<IMappable>();
         }
 
-        _creaturePositions[point].Add(creature);
+        _mappablePositions[point].Add(mappable);
     }
 
-    public void Remove(Creature creature, Point point)
+    public void Remove(IMappable mappable, Point point)
     {
-        if (_creaturePositions.ContainsKey(point))
+        if (_mappablePositions.ContainsKey(point))
         {
-            _creaturePositions[point].Remove(creature);
-            if (_creaturePositions[point].Count == 0)
+            _mappablePositions[point].Remove(mappable);
+            if (_mappablePositions[point].Count == 0)
             {
-                _creaturePositions.Remove(point);
+                _mappablePositions.Remove(point);
             }
         }
     }
 
-    public void Move(Creature creature, Point from, Point to)
+    public void Move(IMappable mappable, Point from, Point to)
     {
-        Remove(creature, from);
-        Add(creature, to);
+        Remove(mappable, from);
+        Add(mappable, to);
     }
 
-    public List<Creature> At(Point point)
+    public override List<IMappable> At(Point point)
     {
-        return _creaturePositions.ContainsKey(point) ? _creaturePositions[point] : new List<Creature>();
+        return _mappablePositions.ContainsKey(point) ? _mappablePositions[point] : new List<IMappable>();
     }
 
-    public List<Creature> At(int x, int y)
+    public override List<IMappable> At(int x, int y)
     {
         return At(new Point(x, y));
     }
 }
-
