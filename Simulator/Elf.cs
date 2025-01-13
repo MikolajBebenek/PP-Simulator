@@ -19,18 +19,28 @@ public class Elf : Creature
 
     public override string Info => $"{Name} [{Level}][{Agility}]";
 
+    public override string Greeting() =>
+        $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
+
+    public override int Power => Level * 8 + Agility * 2;
+
     public void Sing()
     {
         _singCount++;
-
         if (_singCount % 3 == 0)
         {
             Agility = Validator.Limiter(Agility + 1, 0, 10);
         }
     }
 
-    public override string Greeting() =>
-        $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
-
-    public override int Power => Level * 8 + Agility * 2;
+    public string[] Go(Direction[] directions)
+    {
+        var results = new List<string>();
+        foreach (var direction in directions)
+        {
+            Move(direction);
+            results.Add($"{Name} moves {direction}");
+        }
+        return results.ToArray();
+    }
 }

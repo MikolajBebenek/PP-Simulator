@@ -21,5 +21,7 @@ public abstract class Map
     public abstract Point NextDiagonal(Point p, Direction d);
     public abstract List<IMappable> At(Point point);
     public abstract List<IMappable> At(int x, int y);
+    public abstract void Move(IMappable mappable, Point from, Point to);
+
 
 }

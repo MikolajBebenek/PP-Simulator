@@ -30,7 +30,7 @@ public abstract class SmallMap : Map
         }
     }
 
-    public void Move(IMappable mappable, Point from, Point to)
+    public override void Move(IMappable mappable, Point from, Point to)
     {
         Remove(mappable, from);
         Add(mappable, to);

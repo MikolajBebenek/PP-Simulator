@@ -11,7 +11,9 @@ public abstract class Creature : IMappable
     public int Level { get => _level; init => _level = Validator.Limiter(value, 1, 10); }
 
     public Map? CurrentMap { get; private set; }
-    public Point CurrentPosition { get; private set; }
+    public Point CurrentPosition { get; protected set; }
+
+    public virtual char Symbol => 'C';
 
     protected Creature(string name, int level = 1)
     {
@@ -39,17 +41,6 @@ public abstract class Creature : IMappable
             smallMap.Move(this, CurrentPosition, newPosition);
         }
         CurrentPosition = newPosition;
-    }
-
-    public string[] Go(Direction[] directions)
-    {
-        var results = new List<string>();
-        foreach (var direction in directions)
-        {
-            Move(direction);
-            results.Add($"{Name} moves {direction}");
-        }
-        return results.ToArray();
     }
 
     public abstract string Info { get; }
