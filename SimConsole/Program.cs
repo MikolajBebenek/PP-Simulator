@@ -29,22 +29,22 @@ class Program
         string moves = "dlrludlruddurlr";
 
         Simulation simulation = new(map, items, positions, moves);
-        MapVisualizer mapVisualizer = new(simulation.Map);
+        SimulationHistory history = new(simulation);
+        LogVisualizer visualizer = new(history);
 
-        while (!simulation.Finished)
+        int turnIndex = 0;
+        while (true)
         {
-            Console.Clear();
-            mapVisualizer.Draw();
-            Console.WriteLine($"Current Item: {simulation.CurrentItem.Name}");
-            Console.WriteLine($"Current Move: {simulation.CurrentMoveName}");
-            simulation.Turn();
-            Console.ReadKey();
-        }
+            visualizer.Draw(turnIndex);
+            Console.WriteLine("\nUse Left/Right arrow keys to navigate turns. Press 'Q' to quit.");
+            var key = Console.ReadKey(true).Key;
 
-        Console.Clear();
-        mapVisualizer.Draw();
-        Console.WriteLine("Simulation finished!");
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey();
+            if (key == ConsoleKey.RightArrow && turnIndex < history.TurnLogs.Count - 1)
+                turnIndex++;
+            else if (key == ConsoleKey.LeftArrow && turnIndex > 0)
+                turnIndex--;
+            else if (key == ConsoleKey.Q)
+                break;
+        }
     }
 }
