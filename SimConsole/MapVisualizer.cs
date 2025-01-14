@@ -26,7 +26,7 @@ public class MapVisualizer
             Console.Write(Box.Vertical);
             for (int x = 0; x < _map.SizeX; x++)
             {
-                var mappables = _map.At(x, y);
+                var mappables = _map.At(x,y);
                 if (mappables.Count == 1)
                     Console.Write(mappables[0].Symbol);
                 else if (mappables.Count > 1)

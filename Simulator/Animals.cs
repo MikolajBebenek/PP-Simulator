@@ -31,6 +31,7 @@ public class Animals : IMappable
 
         CurrentMap = map;
         CurrentPosition = initialPosition;
+        CurrentMap.Add(this, initialPosition);
     }
 
     public virtual void Move(Direction direction)

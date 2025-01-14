@@ -28,18 +28,16 @@ public abstract class Creature : IMappable
 
         CurrentMap = map;
         CurrentPosition = initialPosition;
+        CurrentMap.Add(this, initialPosition);
     }
 
     public void Move(Direction direction)
     {
         if (CurrentMap == null)
-            return;
+            throw new InvalidOperationException("Creature is not assigned to a map.");
 
         var newPosition = CurrentMap.Next(CurrentPosition, direction);
-        if (CurrentMap is SmallMap smallMap)
-        {
-            smallMap.Move(this, CurrentPosition, newPosition);
-        }
+        CurrentMap.Move(this, CurrentPosition, newPosition);
         CurrentPosition = newPosition;
     }
 
