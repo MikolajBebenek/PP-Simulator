@@ -5,6 +5,7 @@ namespace Simulator;
 public class SimulationHistory
 {
     private Simulation _simulation { get; }
+    public List<IMappable> Items => _simulation.Items;
     public int SizeX { get; }
     public int SizeY { get; }
     public List<SimulationTurnLog> TurnLogs { get; } = new List<SimulationTurnLog>();
@@ -19,11 +20,13 @@ public class SimulationHistory
 
     private void Run()
     {
-        // Store initial positions as the first log.
-        var initialSymbols = new Dictionary<Point, char>();
+        var initialSymbols = new Dictionary<Point, List<char>>();
         foreach (var item in _simulation.Items)
         {
-            initialSymbols[item.CurrentPosition] = item.Symbol;
+            if (!initialSymbols.ContainsKey(item.CurrentPosition))
+                initialSymbols[item.CurrentPosition] = new List<char>();
+
+            initialSymbols[item.CurrentPosition].Add(item.Symbol);
         }
         TurnLogs.Add(new SimulationTurnLog
         {
@@ -32,13 +35,15 @@ public class SimulationHistory
             Symbols = initialSymbols
         });
 
-        // Iterate through simulation turns.
         while (!_simulation.Finished)
         {
-            var currentSymbols = new Dictionary<Point, char>();
+            var currentSymbols = new Dictionary<Point, List<char>>();
             foreach (var item in _simulation.Items)
             {
-                currentSymbols[item.CurrentPosition] = item.Symbol;
+                if (!currentSymbols.ContainsKey(item.CurrentPosition))
+                    currentSymbols[item.CurrentPosition] = new List<char>();
+
+                currentSymbols[item.CurrentPosition].Add(item.Symbol);
             }
 
             TurnLogs.Add(new SimulationTurnLog

@@ -26,7 +26,7 @@ class Program
             new(6, 5),
             new(5, 5)
         };
-        string moves = "dlrludlruddurlr";
+        string moves = "rlrluurruddurlr";
 
         Simulation simulation = new(map, items, positions, moves);
         SimulationHistory history = new(simulation);

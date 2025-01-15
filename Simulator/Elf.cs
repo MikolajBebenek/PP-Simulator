@@ -19,6 +19,8 @@ public class Elf : Creature
 
     public override string Info => $"{Name} [{Level}][{Agility}]";
 
+    public override char Symbol => 'E';
+
     public override string Greeting() =>
         $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 

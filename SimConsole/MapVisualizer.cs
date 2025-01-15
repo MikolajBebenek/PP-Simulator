@@ -1,6 +1,8 @@
-﻿namespace SimConsole;
+﻿using Simulator.Maps;
+using Simulator;
+using System.Text;
 
-using Simulator.Maps;
+namespace SimConsole;
 
 public class MapVisualizer
 {
@@ -13,6 +15,8 @@ public class MapVisualizer
 
     public void Draw()
     {
+        Console.OutputEncoding = Encoding.UTF8;
+
         Console.Write(Box.TopLeft);
         for (int x = 0; x < _map.SizeX; x++)
         {
@@ -26,15 +30,20 @@ public class MapVisualizer
             Console.Write(Box.Vertical);
             for (int x = 0; x < _map.SizeX; x++)
             {
-                var mappables = _map.At(x,y);
-                if (mappables.Count == 1)
-                    Console.Write(mappables[0].Symbol);
-                else if (mappables.Count > 1)
-                    Console.Write("X");
-                else
+                var mappables = _map.At(x, y);
+                if (mappables.Count == 0)
+                {
                     Console.Write(" ");
-
-                Console.Write(Box.Vertical); 
+                }
+                else if (mappables.Count == 1)
+                {
+                    Console.Write(mappables[0].Symbol);
+                }
+                else
+                {
+                    Console.Write("X");
+                }
+                Console.Write(Box.Vertical);
             }
             Console.WriteLine();
 

@@ -44,7 +44,15 @@ internal class LogVisualizer
                 var point = new Point(x, y);
                 if (turnLog.Symbols.ContainsKey(point))
                 {
-                    Console.Write(turnLog.Symbols[point]);
+                    var symbols = turnLog.Symbols[point];
+                    if (symbols.Count > 1)
+                    {
+                        Console.Write("X");
+                    }
+                    else
+                    {
+                        Console.Write(symbols[0]);
+                    }
                 }
                 else
                 {
